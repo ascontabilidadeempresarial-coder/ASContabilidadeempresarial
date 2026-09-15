@@ -8,6 +8,7 @@ Repositório de automações internas da **A&S Contabilidade**: servidores MCP e
 mcps/
   gclick/     servidor MCP de integração com a API do GClick (app.gclick.com.br)
   omie/       servidor MCP de integração com a API do Omie
+  clicksign/  servidor MCP de integração com a API do Clicksign (assinatura eletrônica)
 skills/
   arquivar-processo-societario/   transporta documentos de processo societário finalizado para a pasta definitiva da empresa
   atualizar-tarefa-gclick/        registra andamento/comentário no histórico de uma tarefa no GClick
@@ -54,6 +55,30 @@ Variáveis de ambiente necessárias:
 OMIE_APP_KEY
 OMIE_APP_SECRET
 ```
+
+### clicksign
+
+Integração com a API do Clicksign (assinatura eletrônica de documentos) — cria envelopes, anexa documentos, adiciona signatários, configura requisitos de autenticação e ativa o envio para assinatura.
+
+```bash
+cd mcps/clicksign
+python -m venv .venv
+.venv/Scripts/activate   # Windows
+pip install -r requirements.txt
+```
+
+Variáveis de ambiente necessárias:
+
+```
+CLICKSIGN_ACCESS_TOKEN
+CLICKSIGN_ENV   # "sandbox" (padrão, sem valor jurídico) ou "production"
+```
+
+Token gerado em: Clicksign > Configurações da conta > aba API (é preciso primeiro salvar o "E-mail do usuário da API" e só então gerar o Access Token). Expira a cada 90 dias.
+
+Comandos expostos: `clicksign_listar_envelopes`, `clicksign_detalhes_envelope`, `clicksign_criar_envelope`, `clicksign_upload_documento`, `clicksign_criar_signatario`, `clicksign_criar_requisito_autenticacao`, `clicksign_ativar_envelope`, `clicksign_notificar_signatario`.
+
+⚠️ Ativar um envelope em ambiente `production` dispara uma assinatura com valor jurídico real e é irreversível.
 
 ## Skills
 
